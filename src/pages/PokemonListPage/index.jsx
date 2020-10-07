@@ -5,20 +5,20 @@ import { Button } from '../../components/Button';
 import { Pokemons } from '../../components/Pokemons';
 import { Search } from '../../components/Search';
 
-import { loadPokemons } from '../../actions/app';
+import { loadPokemons, loadMorePokemons } from '../../actions/app';
 import { filterPokemons } from '../../common/helpers';
 
 const PokemonListPage = () => {
   const dispatch = useDispatch();
-  const [offset, setOffset] = useState(0);
   const [searchKey, setSearchKey] = useState('');
+  const offset = useSelector(({ app }) => app.offset);
 
   useEffect(() => {
-    loadPokemons(dispatch, offset);
-  }, [dispatch, offset]);
+    loadPokemons(dispatch);
+  }, [dispatch]);
 
   const handleLoadMore = () => {
-    setOffset(offset + 20);
+    loadMorePokemons(dispatch, offset + 20);
   };
 
   const isLoading = useSelector(({ app }) => app.isLoading);

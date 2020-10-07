@@ -4,6 +4,8 @@ import {
   SET_LOADING,
   SET_POKEMON_DETAILED_INFO,
   SET_POKEMONS_LIST,
+  SET_LOAD_MORE,
+  SET_OFFSET,
 } from '../actions/app';
 
 const initialState = {
@@ -12,19 +14,28 @@ const initialState = {
   abilityInfo: null,
   appReady: false,
   isLoading: false,
+  offset: 0,
 };
 
 const appReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case APP_READY:
       return { ...state, appReady: true };
-
     case SET_POKEMONS_LIST:
       return {
         ...state,
-        pokemons: state.pokemons.concat(payload),
+        pokemons: payload,
       };
-
+      case SET_LOAD_MORE:
+        return {
+          ...state,
+          pokemons: [...state.pokemons, ...payload],
+        };
+      case SET_OFFSET:
+        return {
+          ...state,
+          offset: payload,
+        }
     case SET_POKEMON_DETAILED_INFO:
       return {
         ...state,
